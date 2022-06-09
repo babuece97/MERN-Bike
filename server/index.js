@@ -3,6 +3,7 @@ const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000;
+
 //very very important
 app.use(cors());
 app.use(express.json());
@@ -16,10 +17,12 @@ async function run() {
   try {
     await client.connect();
     const productCollection = client.db("foodexpro").collection("product");
-    app.post('/product',(req,res)=>{
+    app.post('/product',async(req,res)=>{          //Sending data to DB
       const newProduct=req.body;
       console.log('adding new products HOLO ',newProduct);
-      res.send({resultKI :'SuCCess'})
+      const resultKI =await productCollection.insertOne(newProduct); // FOR sending data to DB
+      res.send(resultKI)
+      //res.send({resultKI :'SuCCess'})
     })
 
 //  }) } const result = await userCollection.insertOne(user);
