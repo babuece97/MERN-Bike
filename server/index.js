@@ -17,6 +17,15 @@ async function run() {
   try {
     await client.connect();
     const productCollection = client.db("foodexpro").collection("product");
+
+     // TO SHOW DATA AT UI
+    app.get('/product',async(req,res)=>{
+      const query={};
+      const cursor = productCollection.find(query);
+      const products =await cursor.toArray();
+      res.send(products);
+    })
+
     app.post('/product',async(req,res)=>{          //Sending data to DB
       const newProduct=req.body;
       console.log('adding new products HOLO ',newProduct);
