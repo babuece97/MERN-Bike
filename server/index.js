@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const ObjectId =require('mongodb').ObjectId;   //FOR DELETING ACTION
 const app = express()
 const port = process.env.PORT || 5000;
 
@@ -26,12 +27,21 @@ async function run() {
       res.send(products);
     })
 
-    app.post('/product',async(req,res)=>{          //Sending data to DB
+    //Sending data/add to DB
+    app.post('/product',async(req,res)=>{          
       const newProduct=req.body;
       console.log('adding new products HOLO ',newProduct);
       const resultKI =await productCollection.insertOne(newProduct); // FOR sending data to DB
       res.send(resultKI)
       //res.send({resultKI :'SuCCess'})
+    })
+
+    //DELETING  TASK
+    app.delete('/product/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query ={_id:ObjectId(id)};
+      const result = await productCollection.deleteOne(query);
+      res.send(result);
     })
 
 //  }) } const result = await userCollection.insertOne(user);
