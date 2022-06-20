@@ -72,7 +72,7 @@ run().catch(console.dir);
 
 
   
-// API/ROUTE/ENTRY point
+// API/ROUTE/ENTRY point // MOST IMPORTANR PART
 app.get('/', (req, res) => {
   res.send(' Im on root!!! Hello I am here !') });
 
